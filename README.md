@@ -1,47 +1,47 @@
 # HyperVision
 
-A demo of the flow interaction graph based attack traffic detection system, i.e., HyperVision:
+基于流交互图的攻击流量检测系统演示项目。
 
 ___Detecting Unknown Encrypted Malicious Traffic in Real Time via Flow Interaction Graph Analysis___  
-In the $30^{th}$ Network and Distributed System Security Symposium ([NDSS'23](https://www.ndss-symposium.org/ndss-paper/detecting-unknown-encrypted-malicious-traffic-in-real-time-via-flow-interaction-graph-analysis/)).  
-[Chuanpu Fu](https://www.fuchuanpu.cn), [Qi Li](https://sites.google.com/site/qili2012), and [Ke Xu](http://www.thucsnet.org/xuke.html).  
+发表于第 30 届网络与分布式系统安全研讨会 ([NDSS'23](https://www.ndss-symposium.org/ndss-paper/detecting-unknown-encrypted-malicious-traffic-in-real-time-via-flow-interaction-graph-analysis/))  
+作者: [Chuanpu Fu](https://www.fuchuanpu.cn), [Qi Li](https://sites.google.com/site/qili2012), [Ke Xu](http://www.thucsnet.org/xuke.html) (清华大学)
 
 ---
 
-## 🔄 Reproduction Source
+## 🔄 复现来源
 
-This repository is a **reproduction/port** of the original HyperVision implementation.
+本仓库是原版 HyperVision 的 **复现/移植** 版本。
 
-| Item | Information |
-|------|-------------|
-| **Original Repository** | [https://github.com/fuchuanpu/HyperVision](https://github.com/fuchuanpu/HyperVision) |
-| **Original Authors** | Chuanpu Fu, Qi Li, Ke Xu (Tsinghua University) |
-| **Paper** | [NDSS'23](https://www.ndss-symposium.org/ndss-paper/detecting-unknown-encrypted-malicious-traffic-in-real-time-via-flow-interaction-graph-analysis/) |
-| **This Port** | Includes both C++ (original) and Python implementations |
+| 项目 | 信息 |
+|------|------|
+| **原始仓库** | [https://github.com/fuchuanpu/HyperVision](https://github.com/fuchuanpu/HyperVision) |
+| **原作者** | Chuanpu Fu, Qi Li, Ke Xu (清华大学) |
+| **论文** | [NDSS'23](https://www.ndss-symposium.org/ndss-paper/detecting-unknown-encrypted-malicious-traffic-in-real-time-via-flow-interaction-graph-analysis/) |
+| **本仓库** | 包含 C++ (原版) 和 Python (新增) 两种实现 |
 
 ---
 
-## 📦 Implementations
+## 📦 实现版本
 
-This repository contains **two implementations**:
+本仓库包含 **两种实现**：
 
-### 1. C++ Implementation (Original)
+### 1. C++ 实现 (原版)
 
-The original high-performance implementation using:
-- PcapPlusPlus for packet parsing
-- mlpack for machine learning
-- Z3 for SMT solving
+高性能原版实现，使用：
+- PcapPlusPlus 进行数据包解析
+- mlpack 进行机器学习
+- Z3 进行 SMT 求解
 
-See the [C++ Usage](#0x01-software-c) section below.
+详见下方 [C++ 使用方法](#0x01-软件环境-c)。
 
-### 2. Python Implementation (New)
+### 2. Python 实现 (新增)
 
-A Python port for easier experimentation and integration:
-- scapy for packet parsing
-- scikit-learn for machine learning
-- Pure Python with numpy
+Python 移植版本，便于实验和集成：
+- scapy 进行数据包解析
+- scikit-learn 进行机器学习
+- 纯 Python + numpy 实现
 
-**Quick start:**
+**快速开始：**
 
 ```bash
 cd python
@@ -49,59 +49,60 @@ pip install -r requirements.txt
 python main.py --config ../configuration/lrscan/http_lrscan.json
 ```
 
-See [`python/README.md`](python/README.md) for detailed documentation.
+详见 [`python/README.md`](python/README.md)。
 
 ---
 
-## __0x00__ Hardware
-- AWS EC2 c4.4xlarge, 100GB SSD, canonical `Ubuntu` 22.04 LTS (amd64, 3/3/2023).
-- Tencent Cloud CVM, _with similar OS and hardware configurations_.
+## __0x00__ 硬件要求
 
-## __0x01__ Software (C++)
+- AWS EC2 c4.4xlarge, 100GB SSD, `Ubuntu` 22.04 LTS (amd64)
+- 腾讯云 CVM，_类似的系统和硬件配置_
 
-The demo can be built from a clean `Ubuntu` env.
+## __0x01__ 软件环境 (C++)
+
+可在干净的 `Ubuntu` 环境下构建。
 
 ```bash
-# Establish env.
+# 建立环境
 git clone https://github.com/fuchuanpu/HyperVision.git
 cd HyperVision
 sudo ./env/install_all.sh
 
-# Download dataset.
+# 下载数据集
 wget https://www.hypervision.fuchuanpu.xyz/hypervision-dataset.tar.gz
 tar -xvf hypervision-dataset.tar.gz
 rm $_
 
-# Build and run HyperVision.
+# 构建并运行 HyperVision
 ./script/rebuild.sh
 ./script/expand.sh
 cd build && ../script/run_all_brute.sh && cd ..
 
-# Analyze the results.
+# 分析结果
 cd ./result_analyze
 ./batch_analyzer.py -g brute
 cat ./log/brute/*.log | grep AU_ROC
 cd -
 ```
 
-## __0x02__ Python Implementation
+## __0x02__ Python 实现
 
 ```bash
-# Navigate to Python implementation
+# 进入 Python 实现目录
 cd python
 
-# Install dependencies
+# 安装依赖
 pip install -r requirements.txt
 
-# Run with configuration
+# 运行
 python main.py --config ../configuration/lrscan/http_lrscan.json
 ```
 
-For more details, see [`python/README.md`](python/README.md).
+详见 [`python/README.md`](python/README.md)。
 
-## __0x03__ Reference
+## __0x03__ 引用
 
-If you use this code in your research, please cite the original paper:
+如果您在研究中使用了本代码，请引用原论文：
 
 ```bibtex
 @inproceedings{NDSS23-HyperVision,
@@ -114,6 +115,6 @@ If you use this code in your research, please cite the original paper:
 }
 ```
 
-## License
+## 许可证
 
-GPL-3.0 License - See [LICENSE](LICENSE) for details.
+GPL-3.0 许可证 - 详见 [LICENSE](LICENSE)。
